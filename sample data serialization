@@ -1,0 +1,21 @@
+require 'json'
+require_relative "data_transport"
+include Upload_data
+
+def serialize_user_data(user_data)
+  # Serialize user_data to JSON
+  serialized_user_data = user_data.to_json
+  upload_serialized_data(serialized_user_data)
+end
+
+def deserialize_user_data(serialized_data)
+  begin
+    # Deserialize JSON data back to a Ruby object
+    deserialized_user_data = JSON.parse(serialized_data, symbolize_names: true)
+    upload_deserialized_data(deserialized_user_data)
+  rescue JSON::ParserError => e
+    # Handle JSON parsing error
+    puts "JSON parsing error: #{e.message}"
+    # You can raise an exception or handle it in another way
+  end
+end
